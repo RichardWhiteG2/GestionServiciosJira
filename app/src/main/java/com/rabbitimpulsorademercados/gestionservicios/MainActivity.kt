@@ -1,6 +1,11 @@
 package com.rabbitimpulsorademercados.gestionservicios
 
+import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -20,8 +25,13 @@ class MainActivity : AppCompatActivity() {
     //Private
     private var webView: WebView?=null
 
-   /* funcionalidad nueva
-    var portada=false*/
+
+    //Sensor
+    private lateinit var sensorManager: SensorManager
+    private var mProximity: Sensor? = null
+
+    /* funcionalidad nueva
+     var portada=false*/
 
     //la pagina que carga siempre el webview
     private val BASE_URL = "https://rabbit-mx.atlassian.net/servicedesk/customer/portal/6"
@@ -31,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Toast.makeText(this, "¡CARGANDO...UN MOMENTO POR FAVOR!" , Toast.LENGTH_LONG).show()
 
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mProximity = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
        /*Funcionalidad 2
         val objetoIntent: Intent=intent
         portada = objetoIntent.getBooleanExtra("portada",portada)
@@ -72,6 +84,31 @@ class MainActivity : AppCompatActivity() {
         val recargar = Intent(this, MainActivity::class.java)
         temporizador()
         startActivity(recargar)
+    }
+    //Sensor
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+        // Do something here if sensor accuracy changes.
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        val distance = event.values[0]
+        // Do something with this sensor data.
+    }
+
+    override fun onResume() {
+        // Register a listener for the sensor.
+        super.onResume()
+
+
+        mProximity?.also { proximity ->
+            sensorManager.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    override fun onPause() {
+        // Be sure to unregister the sensor when the activity pauses.
+        super.onPause()
+        sensorManager.unregisterListener(this)
     }
 
 }
