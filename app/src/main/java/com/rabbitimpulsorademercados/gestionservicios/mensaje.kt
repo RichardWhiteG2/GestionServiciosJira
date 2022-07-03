@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 
 class mensaje : AppCompatActivity() {
-    var portada=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mensaje)
@@ -14,7 +13,6 @@ class mensaje : AppCompatActivity() {
     fun tickets(view: View){
 
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("portada", portada)
         startActivity(intent)
 
     }
