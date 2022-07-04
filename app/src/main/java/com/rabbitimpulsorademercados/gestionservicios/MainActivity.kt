@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var timer: CountDownTimer
 
+
     //la pagina que carga siempre el webview
     private val BASE_URL = "https://rabbit-mx.atlassian.net/servicedesk/customer/portal/6"
 
