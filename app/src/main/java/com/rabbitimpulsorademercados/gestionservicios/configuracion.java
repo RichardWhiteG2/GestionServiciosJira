@@ -13,11 +13,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class configuracion extends AppCompatActivity implements View.OnClickListener{
-    private Button lock, disable, enable;
+    private Button lock, continuar, enable;
     public static final int RESULT_ENABLE = 11;
     private DevicePolicyManager devicePolicyManager;
     private ActivityManager activityManager;
     private ComponentName compName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +30,18 @@ public class configuracion extends AppCompatActivity implements View.OnClickList
 
         lock = (Button) findViewById(R.id.lock);
         enable = (Button) findViewById(R.id.enableBtn);
-        disable = (Button) findViewById(R.id.disableBtn);
+        continuar = (Button) findViewById(R.id.btcontinuar);
         lock.setOnClickListener(this);
         enable.setOnClickListener(this);
-        disable.setOnClickListener(this);
+        continuar.setOnClickListener(this);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         boolean isActive = devicePolicyManager.isAdminActive(compName);
-        disable.setVisibility(isActive ? View.VISIBLE : View.GONE);
+        continuar.setVisibility(isActive ? View.VISIBLE : View.GONE);
         enable.setVisibility(isActive ? View.GONE : View.VISIBLE);
     }
 
@@ -52,24 +54,23 @@ public class configuracion extends AppCompatActivity implements View.OnClickList
                 devicePolicyManager.lockNow();
             } else {
                 Toast.makeText(this, "Se necesita activar la Administración del dispositivo.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
-                //startActivityForResult(intent, RESULT_ENABLE);
-                startActivity(intent);
+
             }
 
         } else if (view == enable) {
-/*
+
             Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
             intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
-            startActivityForResult(intent, RESULT_ENABLE);*/
+            //startActivityForResult(intent, RESULT_ENABLE);
+            startActivity(intent);
 
-        } else if (view == disable) {
+        } else if (view == continuar) {
+            Intent intent = new Intent(this, mensaje.class);
+            startActivity(intent);/*
             devicePolicyManager.removeActiveAdmin(compName);
             disable.setVisibility(View.GONE);
-            enable.setVisibility(View.VISIBLE);
+            enable.setVisibility(View.VISIBLE);*/
         }
     }
 
