@@ -46,7 +46,7 @@ class mensaje : AppCompatActivity() {
 
         Log.d("Contador", "Nuevo....Contando.....Mensaje")
         //En la variable tiempoSegundos se ingresa la cantidad de tiempo para que se recargue la activity.
-        val tiempoSegundos = 600
+        val tiempoSegundos = 60
         val tiempoMilisegundos = (tiempoSegundos.toLong())*1000
 
 

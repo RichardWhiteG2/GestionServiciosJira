@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         val cargar = Intent(this, mensaje::class.java) //para recargar activity
 
         //En la variable tiempoSegundos se ingresa la cantidad de tiempo para que se recargue la activity.
-        val tiempoSegundos = 60
+        val tiempoSegundos = 600
         val tiempoMilisegundos = (tiempoSegundos.toLong())*1000
 
 
