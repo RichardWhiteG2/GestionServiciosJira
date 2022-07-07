@@ -54,7 +54,6 @@ public class configuracion extends AppCompatActivity implements View.OnClickList
                 devicePolicyManager.lockNow();
             } else {
                 Toast.makeText(this, "Se necesita activar la Administración del dispositivo.", Toast.LENGTH_SHORT).show();
-
             }
 
         } else if (view == enable) {
@@ -62,15 +61,12 @@ public class configuracion extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
             intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
             intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
-            //startActivityForResult(intent, RESULT_ENABLE);
             startActivity(intent);
 
         } else if (view == continuar) {
             Intent intent = new Intent(this, mensaje.class);
-            startActivity(intent);/*
-            devicePolicyManager.removeActiveAdmin(compName);
-            disable.setVisibility(View.GONE);
-            enable.setVisibility(View.VISIBLE);*/
+            startActivity(intent);
+
         }
     }
 

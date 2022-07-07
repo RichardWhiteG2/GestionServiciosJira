@@ -18,7 +18,7 @@ import android.widget.Toast
 class Service : Service() {
 
     private val TAG = "service"
-    private lateinit var timerLock: CountDownTimer
+
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
@@ -36,7 +36,6 @@ class Service : Service() {
                 TODO("Mandar mensaje si el dispositivo no cuenta con sensor de proximidad")
             } else {
                 sensorManager!!.registerListener(proximitySensorEventListener, mProximitySensor, SensorManager.SENSOR_DELAY_NORMAL)
-
             }
 
         }
@@ -59,13 +58,6 @@ class Service : Service() {
                                 acquire()   //PARTIAL_WAKE_LOCK
                             }
                         }
-                    //llamar el temporizador
-
-                    if(contador==false){
-                        //timerLock.cancel()
-                        temporizadorBloqueo()
-
-                    }
 
                 }
             }
@@ -73,34 +65,10 @@ class Service : Service() {
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        temporizadorBloqueo()
-    }
-
     override fun onDestroy() {
         Log.d(TAG, "Destroy")
         super.onDestroy()
     }
 
-    fun temporizadorBloqueo(){
-        //contador=true
-        //En la variable tiempoSegundos se ingresa la cantidad de tiempo para que se recargue la activity.
-        val tiempoSegundos = 8
-        val tiempoMilisegundos = (tiempoSegundos.toLong())*1000
 
-
-        timerLock = object : CountDownTimer(tiempoMilisegundos, 1000) {
-            override fun onTick(p0: Long) {
-                val cuentaSegundos = (p0/1000).toInt()
-               Log.d("Contador", "Contando.....")
-            }
-            override fun onFinish() {
-               // contador=false
-                //cancel()
-
-                Log.d("Contador", "Bloqueandooooooooo")
-            }
-        }.start()
-    }
 }
