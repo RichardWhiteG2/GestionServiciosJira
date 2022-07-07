@@ -25,7 +25,7 @@ class mensaje : AppCompatActivity() {
 
         val intent = Intent(this, Service::class.java)
         //Llama al temporizador para bloquear el dispositivo.
-        temporizadorLock()
+
         //Se llama al servicio donde pone a trabajar e sersor de proximidad aun que la tablet este apagada.
         startService(intent)
 
@@ -33,16 +33,18 @@ class mensaje : AppCompatActivity() {
     fun tickets(view: View){
 
         val intent = Intent(this, MainActivity::class.java)
+        timerLock.cancel()
+        Log.d("Contador", "Cancelando timer")
         startActivity(intent)
 
     }
 
     //Temporizador para llamar servicio de bloqueo.
     fun temporizadorLock(){
-        val cargarLock = Intent(this, ServiceLock::class.java) //para recargar activity
-
+        //val cargarLock = Intent(this, ServiceLock::class.java) //para recargar activity
+        Log.d("Contador", "Nuevo....Contando.....Mensaje")
         //En la variable tiempoSegundos se ingresa la cantidad de tiempo para que se recargue la activity.
-        val tiempoSegundos = 12
+        val tiempoSegundos = 6
         val tiempoMilisegundos = (tiempoSegundos.toLong())*1000
 
 
@@ -62,4 +64,24 @@ class mensaje : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        Log.d("Contador", "Start")
+        temporizadorLock()
+    }
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("Contador", "OnRestar")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("Contador", "Stop")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("Contador", "Pause")
+    }
 }

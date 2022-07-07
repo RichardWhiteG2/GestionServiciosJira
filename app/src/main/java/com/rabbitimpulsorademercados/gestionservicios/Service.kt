@@ -19,6 +19,8 @@ class Service : Service() {
 
     private val TAG = "service"
 
+    private var bloquear=TimerLock()
+
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
@@ -41,6 +43,7 @@ class Service : Service() {
         }
         return START_STICKY
     }
+    var isCorriendo = false
 
     var proximitySensorEventListener = object : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -52,12 +55,17 @@ class Service : Service() {
 
                 if (event.values[0] == 0f) {
                     //Para prender pantalla.
+
                     val power: PowerManager.WakeLock =
                         (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
                             newWakeLock( PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP, "MyApp::MyWakelockTag").apply {
                                 acquire()   //PARTIAL_WAKE_LOCK
                             }
                         }
+
+
+                    //if(!isCorriendo) isCorriendo=bloquear.temporizadorLock()
+
 
                 }
             }
