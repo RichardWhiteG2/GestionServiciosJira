@@ -11,7 +11,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 
-
+/*muestra el mensaje de la pantalla principal y  se ejecuta el temporizador temporizadorLock() para bloquear la pantalla despues de cierto tiempo  (el tiempo se puede modificar en la variable tiempoSegundos)*/
 class mensaje : AppCompatActivity() {
     private lateinit var timerLock: CountDownTimer
     private lateinit var devicePolicyManager: DevicePolicyManager
@@ -23,28 +23,30 @@ class mensaje : AppCompatActivity() {
         //PAra bloquear equipo
         devicePolicyManager = getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
-        val intent = Intent(this, Service::class.java)
-        //Llama al temporizador para bloquear el dispositivo.
-
         //Se llama al servicio donde pone a trabajar e sersor de proximidad aun que la tablet este apagada.
+        val intent = Intent(this, Service::class.java)
         startService(intent)
 
     }
+
+    //Al precionar el boton comenza en activity mensaje se ejecuta tickets()
     fun tickets(view: View){
 
         val intent = Intent(this, MainActivity::class.java)
+
+        //Se cancela el timerlock si se envia a la siguiente activity.
         timerLock.cancel()
         Log.d("Contador", "Cancelando timer")
+        //incia el MAinActivity
         startActivity(intent)
-
     }
 
     //Temporizador para llamar servicio de bloqueo.
     fun temporizadorLock(){
-        //val cargarLock = Intent(this, ServiceLock::class.java) //para recargar activity
+
         Log.d("Contador", "Nuevo....Contando.....Mensaje")
         //En la variable tiempoSegundos se ingresa la cantidad de tiempo para que se recargue la activity.
-        val tiempoSegundos = 6
+        val tiempoSegundos = 600
         val tiempoMilisegundos = (tiempoSegundos.toLong())*1000
 
 
@@ -55,33 +57,15 @@ class mensaje : AppCompatActivity() {
             }
             override fun onFinish() {
                 //Inicia el servicio de bloqueo.
-                //startService(cargarLock)
-
-                Log.d("Contador", "Bloqueandooooooooo en Mensaje")
+               Log.d("Contador", "Bloqueandoo en Mensaje")
                 devicePolicyManager.lockNow()
             }
         }.start()
 
     }
-
     override fun onStart() {
         super.onStart()
-
         Log.d("Contador", "Start")
         temporizadorLock()
-    }
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("Contador", "OnRestar")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("Contador", "Stop")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("Contador", "Pause")
     }
 }

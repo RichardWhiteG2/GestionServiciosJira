@@ -13,6 +13,7 @@
             android:layout_gravity="right"
             android:layout_margin="15dp"
             android:onClick="cargar"
+            android:fontFamily="@font/poppinsbold"
             android:text="@string/nuevoticket" />
 
         <WebView

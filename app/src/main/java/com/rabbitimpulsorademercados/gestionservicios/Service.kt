@@ -18,16 +18,13 @@ import android.widget.Toast
 class Service : Service() {
 
     private val TAG = "service"
-
-    private var bloquear=TimerLock()
-
+    private var sensorManager: SensorManager? = null
+    private var mProximitySensor: Sensor? = null
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
     }
-    private var sensorManager: SensorManager? = null
-    private var mProximitySensor: Sensor? = null
-    private var contador=false
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "Start")
 
@@ -43,18 +40,18 @@ class Service : Service() {
         }
         return START_STICKY
     }
-    var isCorriendo = false
 
+    //Utilizar el sensor.
     var proximitySensorEventListener = object : SensorEventListener {
+
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
 
         }
-
         override fun onSensorChanged(event: SensorEvent) {
             if (event.sensor.type == Sensor.TYPE_PROXIMITY) {
 
                 if (event.values[0] == 0f) {
-                    //Para prender pantalla.
+                    //Para prender pantalla cuando el sensor se activa
 
                     val power: PowerManager.WakeLock =
                         (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
@@ -62,21 +59,9 @@ class Service : Service() {
                                 acquire()   //PARTIAL_WAKE_LOCK
                             }
                         }
-
-
-                    //if(!isCorriendo) isCorriendo=bloquear.temporizadorLock()
-
-
                 }
             }
 
         }
     }
-
-    override fun onDestroy() {
-        Log.d(TAG, "Destroy")
-        super.onDestroy()
-    }
-
-
 }

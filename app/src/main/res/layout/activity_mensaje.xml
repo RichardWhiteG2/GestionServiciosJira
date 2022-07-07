@@ -12,7 +12,9 @@ android:background="@color/primariovariante">
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:onClick="tickets"
-    android:text="@string/Comenzar" />
+    android:fontFamily="@font/poppinsbold"
+    android:text="@string/Comenzar"
+    />
 
 
 <ImageView
