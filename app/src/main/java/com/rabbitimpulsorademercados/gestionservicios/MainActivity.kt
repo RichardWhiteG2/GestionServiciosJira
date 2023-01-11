@@ -9,12 +9,14 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import java.net.UnknownHostException
 
 /* Realizada por Ing. Brayan Ricardo Blanco García
     Esta app muestra una vista web de la plataforma Jira para tickets de Mesa de ayuda de Rabbitmx.
@@ -34,18 +36,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Toast.makeText(this, "¡CARGANDO...UN MOMENTO POR FAVOR!" , Toast.LENGTH_LONG).show()
-        temporizador()
+
+        //temporizador()
 
         //WebView
         webView = findViewById(R.id.webView)
         webView?.webViewClient = WebViewClient()
         webView?.clearCache(true) //false
         webView?.settings?.javaScriptEnabled=true
-        webView?.loadUrl(BASE_URL)
+        try{
+            webView?.loadUrl(BASE_URL)
+            //Toast.makeText(this, "¡CARGANDO...UN MOMENTO POR FAVOR!" , Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Log.e("WebView", "pasoooooooooooo: $e")
+            Toast.makeText(this, "¡CARGANDO...UN MOMENTO POR FAVOR!" , Toast.LENGTH_LONG).show()
+            //webView?.loadUrl("file:///android_asset/error_image.jpg")
+        }
 
     }
     //Temporizador para actualizar la activity.
+    /*
     fun temporizador(){
         val cargar = Intent(this, mensaje::class.java) //para recargar activity
 
@@ -63,10 +73,10 @@ class MainActivity : AppCompatActivity() {
             }
         }.start()
 
-    }
+    }*/
     fun cargar(view: View){
         val recargar = Intent(this, mensaje::class.java)
-        timer.cancel()
+        //timer.cancel()
         startActivity(recargar)
     }
 
